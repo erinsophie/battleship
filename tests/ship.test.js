@@ -3,7 +3,7 @@ import Ship from "../src/ship";
 describe("ship properties and functions", () => {
   let ship;
 
-  beforeEach(() => (ship = Ship([0, 1, 2, 3])));
+  beforeEach(() => (ship = new Ship([0, 1, 2, 3])));
 
   test("Ship creates an object with correct properties", () => {
     expect(ship).toHaveProperty("positions", [0, 1, 2, 3]);
