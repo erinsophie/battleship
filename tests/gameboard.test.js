@@ -11,6 +11,8 @@ describe("gameboard functionality", () => {
   test("Checks if placement of ship is valid", () => {
     expect(gameboard.isValidPlacement(12, 3, "x")).toBeTruthy();
     expect(gameboard.isValidPlacement(7, 5, "x")).toBe(false);
+    expect(gameboard.isValidPlacement(28, 4, "y")).toBeTruthy();
+    expect(gameboard.isValidPlacement(72, 5, "y")).toBe(false);
   });
 
   test("Marks correct cells as occupied if position is valid", () => {

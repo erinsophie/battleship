@@ -1,6 +1,3 @@
-//Gameboards should keep track of missed attacks so they can display them properly.
-//Gameboards should be able to report whether or not all of their ships have been sunk.
-
 import Ship from "./ship.js";
 
 class Gameboard {
@@ -27,32 +24,46 @@ class Gameboard {
     }
   }
 
+  // checks whether the position player wants to place ship in fits in those cells and is not already occupied
   isValidPlacement(start, length, axis) {
-    // e.g 27 would be row 2, col 7
+    return (
+      this.fitsInCells(start, length, axis) &&
+      this.isUnoccupied(start, length, axis)
+    );
+  }
+
+  fitsInCells(start, length, axis) {
+    // e.g 27 would be row 2, col 7 in (0-indexed)
     const startRow = Math.floor(start / 10);
     const startCol = start % 10;
 
-    // end depends on axis
+    // check if move does not go off the board
+    if (axis === "x") {
+      if (startCol + length - 1 <= 9) return true;
+    }
+
+    if (axis === "y") {
+      if (startRow + length - 1 <= 9) return true;
+    }
+
+    return false;
+  }
+
+  isUnoccupied(start, length, axis) {
     const end = axis === "x" ? start + (length - 1) : start + (length - 1) * 10;
 
     if (axis === "x") {
-      // if move does not go off the board
-      if (startCol + length - 1 <= 9) {
-        // check if any of the cells the ship would occupy are already occupied
-        for (let i = start; i <= end; i++) {
-          if (this.cells[i].occupied) return false;
-        }
-        return true;
+      // check if any of the cells are already occupied
+      for (let i = start; i <= end; i++) {
+        if (this.cells[i].occupied) return false;
       }
+      return true;
     } else if (axis === "y") {
-      if (startRow + length - 1 <= 9) {
-        for (let i = start; i <= end; i += 10) {
-          if (this.cells[i].occupied) return false;
-        }
-        return true;
+      for (let i = start; i <= end; i += 10) {
+        if (this.cells[i].occupied) return false;
       }
+      return true;
     }
-    return false;
   }
 
   placeShip(start, length, axis) {
