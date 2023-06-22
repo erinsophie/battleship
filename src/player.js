@@ -1,8 +1,9 @@
 // represents the player's board and their functionality
 class Player {
-  constructor(name, gameboard) {
+  constructor(name, gameboard, opponentBoard) {
     this.name = name;
     this.gameboard = gameboard;
+    this.opponentBoard = opponentBoard;
   }
 
   // let player place 5 ships
@@ -12,14 +13,19 @@ class Player {
     }
   }
 
-  //recieve attack from ai
-  receiveAttack(index) {
-    this.gameboard.receiveAttack(index);
-  }
+  // player takes their shot at opponent's board
+  playerTurn(index) {
+    const notAttemptedBefore = !this.opponentBoard.cells[index].attempted;
 
-  // player attacks opponent's board
-  attack(index, opponentBoard) {
-    opponentBoard.receiveAttack(index);
+    // if player has not attempted this cell on opponent's board
+    if (notAttemptedBefore) {
+      const hit = this.opponentBoard.attack(index);
+
+      // if attack did not hit a ship, add this to player's misses
+      if (!hit) {
+        this.gameboard.addToMisses(index);
+      }
+    }
   }
 }
 

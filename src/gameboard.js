@@ -4,7 +4,7 @@ class Gameboard {
   constructor() {
     this.cells = [];
     this.ships = [];
-    this.missedAttacks = [];
+    this.misses = [];
     this.init();
   }
 
@@ -87,25 +87,23 @@ class Gameboard {
     }
   }
 
-  receiveAttack(index) {
-    // if cell that was attacked is occupied, find which ship it hit
-    if (this.cells[index].occupied) {
-      this.ships.forEach((ship) => {
-        if (ship.positions.includes(index) && !ship.hits.includes(index)) {
-          // add index to its hits array
-          ship.hit(index);
-        }
-      });
-    }
-
-    // if cell that was attacked is not occupied, add it to missed attacks
-    if (!this.cells[index].occupied && !this.missedAttacks.includes(index)) {
-      this.missedAttacks.push(index);
-    }
-
-    if (this.cells[index].attempted) return;
-    // mark either outcome as attempted
+  attack(index) {
     this.cells[index].markAsAttempted();
+    // if cell contains a ship, send hit to that ship
+    if (this.cells[index].occupied) {
+      const hitShip = this.ships.find((ship) => ship.positions.includes(index));
+
+      if (hitShip && !hitShip.hits.includes(index)) {
+        hitShip.hit(index);
+        this.cells[index].markAsAttempted();
+        return true; // successful attack
+      }
+    }
+    return false; // unsuccessful attack
+  }
+
+  addToMisses(index) {
+    if (!this.misses.includes(index)) this.misses.push(index);
   }
 
   allShipsSunk() {
