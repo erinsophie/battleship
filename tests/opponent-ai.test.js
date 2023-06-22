@@ -1,7 +1,7 @@
 import Opponent from "../src/opponent-ai.js";
 import Gameboard from "../src/gameboard.js";
 
-describe("Ai methods", () => {
+describe("Opponent methods", () => {
   let opponent;
 
   // create temporary gameboard for testing
@@ -24,22 +24,20 @@ describe("Ai methods", () => {
     expect(opponent.gameboard.ships).toHaveLength(5);
   });
 
-  test("Opponent can hit ship on player board", () => {
-    opponent.attack(38, playerBoard);
+  test("Opponent attacks random index on player's board", () => {
+    let missedAttacks = 0;
+    let hits = 0;
 
-    const anyShipHit = playerBoard.ships.some((ship) => ship.hits.includes(38));
-    expect(anyShipHit).toBeTruthy();
-    expect(playerBoard.missedAttacks).toEqual([]);
-  });
+    opponent.attack(playerBoard);
 
-  test("If opponent misses, it is recorded as a miss on player board", () => {
-    opponent.attack(75, playerBoard);
+    console.log(playerBoard.missedAttacks);
+    console.log(playerBoard.ships.forEach((ship) => console.log(ship.hits)));
 
-    const anyShipHit = playerBoard.ships.every(
-      (ship) => ship.hits.length === 0
-    );
+    if (playerBoard.missedAttacks.length > 0) missedAttacks++;
+    playerBoard.ships.forEach((ship) => {
+      if (ship.hits > 0) hits++;
+    });
 
-    expect(anyShipHit).toBe(false);
-    expect(playerBoard.missedAttacks).toEqual([75]);
+    expect(missedAttacks || hits).toBeGreaterThan(0);
   });
 });
