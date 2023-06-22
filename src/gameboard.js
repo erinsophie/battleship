@@ -24,7 +24,7 @@ class Gameboard {
     }
   }
 
-  // checks whether the position player wants to place ship in fits in those cells and is not already occupied
+  // checks whether the position player wants to place ship fits in those cells and is not already occupied
   isValidPlacement(start, length, axis) {
     return (
       this.fitsInCells(start, length, axis) &&
@@ -53,17 +53,18 @@ class Gameboard {
     const end = axis === "x" ? start + (length - 1) : start + (length - 1) * 10;
 
     if (axis === "x") {
-      // check if any of the cells are already occupied
       for (let i = start; i <= end; i++) {
         if (this.cells[i].occupied) return false;
       }
-      return true;
-    } else if (axis === "y") {
+    }
+
+    if (axis === "y") {
       for (let i = start; i <= end; i += 10) {
         if (this.cells[i].occupied) return false;
       }
-      return true;
     }
+
+    return true;
   }
 
   placeShip(start, length, axis) {
@@ -81,7 +82,7 @@ class Gameboard {
 
       // create a new ship with those positions
       const newShip = new Ship(positions);
-      // push new ship into ships array
+      // push new ship object into ships array
       this.ships.push(newShip);
     }
   }
@@ -97,7 +98,7 @@ class Gameboard {
       });
     }
 
-    // if cell that was attacked was not occupied, add it to missed attacks
+    // if cell that was attacked is not occupied, add it to missed attacks
     if (!this.cells[index].occupied && !this.missedAttacks.includes(index)) {
       this.missedAttacks.push(index);
     }
@@ -105,6 +106,10 @@ class Gameboard {
     if (this.cells[index].attempted) return;
     // mark either outcome as attempted
     this.cells[index].markAsAttempted();
+  }
+
+  allShipsSunk() {
+    return this.ships.every((ship) => ship.isSunk());
   }
 }
 

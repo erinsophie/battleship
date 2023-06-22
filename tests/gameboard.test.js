@@ -33,10 +33,22 @@ describe("gameboard functionality", () => {
     expect(gameboard.cells[40].occupied).toBe(false);
   });
 
+  test("Does not let player place ship if it conflicts with other ships", () => {
+    gameboard.placeShip(0, 3, "y");
+    gameboard.placeShip(10, 3, "y");
+    expect(gameboard.ships).toHaveLength(1);
+  });
+
   test("Adds new ship to ships array when placed", () => {
     gameboard.placeShip(12, 3, "x");
     expect(gameboard.ships).toHaveLength(1);
     expect(gameboard.ships[0].positions).toEqual([12, 13, 14]);
+  });
+
+  test("Adds new ship on y axis", () => {
+    gameboard.placeShip(10, 3, "y");
+    expect(gameboard.ships).toHaveLength(1);
+    expect(gameboard.ships[0].positions).toEqual([10, 20, 30]);
   });
 
   test("Registers attack on a ship", () => {
@@ -75,9 +87,29 @@ describe("gameboard functionality", () => {
 
   test("Sinks ship successfully", () => {
     gameboard.placeShip(12, 3, "x");
-    gameboard.receiveAttack([12]);
-    gameboard.receiveAttack([13]);
-    gameboard.receiveAttack([14]);
-    expect(gameboard.ships[0].isSunk).toBeTruthy();
+    gameboard.receiveAttack(12);
+    gameboard.receiveAttack(13);
+    gameboard.receiveAttack(14);
+    expect(gameboard.ships[0].isSunk()).toBeTruthy();
+  });
+
+  test("Gameboards know when every ship has been sunk", () => {
+    gameboard.placeShip(12, 2, "x");
+    gameboard.placeShip(78, 2, "y");
+    gameboard.receiveAttack(12);
+    gameboard.receiveAttack(13);
+    gameboard.receiveAttack(78);
+    gameboard.receiveAttack(88);
+    expect(gameboard.ships).toHaveLength(2);
+    expect(gameboard.allShipsSunk()).toBeTruthy();
+  });
+
+  test("Gameboards know when every ship has not been sunk", () => {
+    gameboard.placeShip(12, 2, "x");
+    gameboard.placeShip(78, 2, "y");
+    gameboard.receiveAttack(12);
+    gameboard.receiveAttack(13);
+    expect(gameboard.ships).toHaveLength(2);
+    expect(gameboard.allShipsSunk()).toBe(false);
   });
 });
