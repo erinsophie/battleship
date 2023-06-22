@@ -20,6 +20,7 @@ describe("Player methods", () => {
     expect(player).toHaveProperty("gameboard", playerBoard);
   });
 
+  // try and add 6 ships but it caps at 5 
   test("Let's player place 5 ships max", () => {
     player.placePlayerShip(0, 3, "y");
     player.placePlayerShip(37, 4, "y");
