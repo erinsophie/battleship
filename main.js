@@ -26,7 +26,27 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
   \**********************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _gameboard_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./gameboard.js */ \"./src/gameboard.js\");\n\n\n\n//# sourceURL=webpack://battleship/./src/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _gameboard_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./gameboard.js */ \"./src/gameboard.js\");\n/* harmony import */ var _player_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./player.js */ \"./src/player.js\");\n/* harmony import */ var _opponent_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./opponent.js */ \"./src/opponent.js\");\n/* harmony import */ var _ship_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ship.js */ \"./src/ship.js\");\nObject(function webpackMissingModule() { var e = new Error(\"Cannot find module './gameController.js'\"); e.code = 'MODULE_NOT_FOUND'; throw e; }());\n\n\n\n\n\n\n\n//# sourceURL=webpack://battleship/./src/index.js?");
+
+/***/ }),
+
+/***/ "./src/opponent.js":
+/*!*************************!*\
+  !*** ./src/opponent.js ***!
+  \*************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n// represents the opponent's board\nclass Opponent {\n  constructor(name, opponentBoard, playerBoard) {\n    this.name = name;\n    this.opponentBoard = opponentBoard;\n    this.playerBoard = playerBoard;\n    this.shipSizes = [2, 3, 3, 4, 5];\n    this.initBoard();\n  }\n\n  // opponent's board is set up with 5 ships placed in random legal cells\n  initBoard() {\n    // safe gaurd in case computer keeps generating invalid indices to cap at 1000 attempts\n    let attemptCounter = 0;\n\n    while (this.opponentBoard.ships.length < 5 && attemptCounter < 1000) {\n      const startIndex = this.generateRandomIndex();\n      const length = this.shipSizes[this.opponentBoard.ships.length];\n      const axis = Math.random() < 0.5 ? \"x\" : \"y\";\n\n      this.opponentBoard.placeShip(startIndex, length, axis);\n      attemptCounter++;\n    }\n    if (attemptCounter === 1000) {\n      console.log(\"Could not find legal placement for all ships.\");\n    }\n  }\n\n  generateRandomIndex() {\n    return Math.floor(Math.random() * this.opponentBoard.cells.length);\n  }\n\n  // computer takes random shot at player's board\n  playTurn() {\n    let index;\n    do {\n      // keep generating index if index generated was already attempted\n      index = this.generateRandomIndex();\n    } while (this.playerBoard.cells[index].attempted);\n\n    this.playerBoard.attack(index);\n  }\n}\n\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Opponent);\n\n\n//# sourceURL=webpack://battleship/./src/opponent.js?");
+
+/***/ }),
+
+/***/ "./src/player.js":
+/*!***********************!*\
+  !*** ./src/player.js ***!
+  \***********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n// represents the player's board and their functionality\nclass Player {\n  constructor(name, playerBoard, opponentBoard) {\n    this.name = name;\n    this.playerBoard = playerBoard;\n    this.opponentBoard = opponentBoard;\n  }\n\n  // let player place 5 ships\n  placePlayerShip(start, length, axis) {\n    if (this.playerBoard.ships.length < 5) {\n      this.playerBoard.placeShip(start, length, axis);\n    }\n  }\n\n  // player takes their shot at opponent's board\n  playTurn(index) {\n    const notAttemptedBefore = !this.opponentBoard.cells[index].attempted;\n    if (notAttemptedBefore) {\n      this.opponentBoard.attack(index);\n    } else {\n      console.log(\"You have already taken a shot here!\");\n    }\n  }\n}\n\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Player);\n\n\n//# sourceURL=webpack://battleship/./src/player.js?");
 
 /***/ }),
 
