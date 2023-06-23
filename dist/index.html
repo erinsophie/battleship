@@ -1,11 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Black+Ops+One&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
     <title>Document</title>
-</head>
-<body>
+  </head>
+  <body>
+    <main>
+      <h1 id="title">Battleship</h1>
+      <div id="message"></div>
+
+      <div id="board-container">
+        <p>Friendly Waters</p>
+        <div class="board player-board"></div>
+        <p>Enemy Waters</p>
+        <div class="board opponent-board"></div>
+      </div>
+    </main>
     <script src="main.js"></script>
-</body>
+  </body>
 </html>

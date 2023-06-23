@@ -10,6 +10,16 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./src/game.js":
+/*!*********************!*\
+  !*** ./src/game.js ***!
+  \*********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\nclass Game {\n  constructor(player, opponent, ui) {\n    // so we know the status of each game board\n    this.player = player;\n    this.opponent = opponent;\n    this.turn = this.player;\n    this.isGameOver = false;\n    this.ui = ui;\n  }\n\n  // check if game is over\n  checkGameOver() {\n    if (\n      this.player.playerBoard.allShipsSunk() ||\n      this.opponent.opponentBoard.allShipsSunk()\n    ) {\n      this.isGameOver = true;\n      this.displayWinner();\n    }\n  }\n\n  // taking turns\n  // Controller handles the interaction\n  switchTurn(index) {\n    if (this.turn === this.player) {\n      this.player.playTurn(index);\n      this.turn = this.opponent;\n    } else if (this.turn === this.opponent) {\n      this.opponent.playTurn();\n      this.turn = this.player;\n    }\n    this.checkGameOver();\n    this.ui.updateBoards(this.player, this.opponent);\n  }\n\n  returnWinner() {\n    let winner = this.player.playerBoard.allShipsSunk() ? opponent : player;\n    return winner;\n  }\n}\n\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Game);\n\n\n//# sourceURL=webpack://battleship/./src/game.js?");
+
+/***/ }),
+
 /***/ "./src/gameboard.js":
 /*!**************************!*\
   !*** ./src/gameboard.js ***!
@@ -26,7 +36,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
   \**********************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _gameboard_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./gameboard.js */ \"./src/gameboard.js\");\n/* harmony import */ var _player_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./player.js */ \"./src/player.js\");\n/* harmony import */ var _opponent_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./opponent.js */ \"./src/opponent.js\");\n/* harmony import */ var _ship_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ship.js */ \"./src/ship.js\");\nObject(function webpackMissingModule() { var e = new Error(\"Cannot find module './gameController.js'\"); e.code = 'MODULE_NOT_FOUND'; throw e; }());\n\n\n\n\n\n\n\n//# sourceURL=webpack://battleship/./src/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _gameboard_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./gameboard.js */ \"./src/gameboard.js\");\n/* harmony import */ var _player_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./player.js */ \"./src/player.js\");\n/* harmony import */ var _opponent_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./opponent.js */ \"./src/opponent.js\");\n/* harmony import */ var _ship_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ship.js */ \"./src/ship.js\");\n/* harmony import */ var _game_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./game.js */ \"./src/game.js\");\n/* harmony import */ var _ui_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./ui.js */ \"./src/ui.js\");\n\n\n\n\n\n\n\nconst player = new _player_js__WEBPACK_IMPORTED_MODULE_1__[\"default\"](\"Player\", new _gameboard_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"](), new _gameboard_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"]());\nconst opponent = new _opponent_js__WEBPACK_IMPORTED_MODULE_2__[\"default\"](\"Opponent\", new _gameboard_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"](), new _gameboard_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"]());\n\n// manually inserting player ships\nplayer.placePlayerShip(10, 3, \"x\");\nplayer.placePlayerShip(67, 2, \"x\");\nplayer.placePlayerShip(20, 5, \"y\");\nplayer.placePlayerShip(85, 4, \"x\");\nplayer.placePlayerShip(90, 3, \"x\");\n\nconst ui = new _ui_js__WEBPACK_IMPORTED_MODULE_5__[\"default\"](player, opponent); // View\nconst game = new _game_js__WEBPACK_IMPORTED_MODULE_4__[\"default\"](player, opponent, ui); // Controller\n\n// Now the ships have been placed before creating UI\n// and the game is created after the UI\ngame.ui.updateBoards(player, opponent); // Use player and opponent variables directly\n\n\n//# sourceURL=webpack://battleship/./src/index.js?");
 
 /***/ }),
 
@@ -57,6 +67,16 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\nclass Ship {\n  constructor(positions) {\n    this.positions = positions;\n    this.length = positions.length;\n    this.hits = [];\n  }\n\n  hit(position) {\n    if (this.hits.includes(position)) return;\n    this.hits.push(position);\n  }\n\n  isSunk() {\n    return this.hits.length === this.length;\n  }\n}\n\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Ship);\n\n\n//# sourceURL=webpack://battleship/./src/ship.js?");
+
+/***/ }),
+
+/***/ "./src/ui.js":
+/*!*******************!*\
+  !*** ./src/ui.js ***!
+  \*******************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\nclass GameUI {\n  constructor(player, opponent) {\n    this.player = player;\n    this.opponent = opponent;\n\n    this.initEmptyBoards();\n    this.initPlayerBoard(this.player);\n  }\n\n  initEmptyBoards() {\n    const boards = document.querySelectorAll(\".board\");\n\n    boards.forEach((board) => {\n      for (let i = 0; i < 100; i++) {\n        const cell = document.createElement(\"div\");\n        cell.className = \"cell\";\n        cell.dataset.index = i;\n        board.appendChild(cell);\n      }\n    });\n  }\n\n  initPlayerBoard(player) {\n    const playerCells = player.playerBoard.cells;\n    const playerBoardElement = document.querySelector(\".player-board\");\n\n    // loop through player cells array\n    playerCells.forEach((cell, index) => {\n      const cellElement = playerBoardElement.querySelector(\n        `.cell[data-index='${index}']`\n      );\n      // display players ships\n      if (cell.occupied) cellElement.classList.add(\"ship\");\n    });\n  }\n\n  // this is called after every turn\n  updateBoards(player, opponent) {\n    this.updatePlayerBoard(player);\n    this.updateOpponentBoard(opponent);\n  }\n\n  updatePlayerBoard(player) {\n    const playerCells = player.playerBoard.cells;\n    const playerBoardElement = document.querySelector(\".player-board\");\n\n    // loop through player cells array\n    playerCells.forEach((cell, index) => {\n      const cellElement = playerBoardElement.querySelector(\n        `.cell[data-index='${index}']`\n      );\n      // mark as attempted\n      if (cell.attempted) cellElement.classList.add(\"dot\");\n      // if opponent hits a ship\n      if (cell.occupied) cellElement.classList.add(\"hit-ship\");\n    });\n  }\n\n  updateOpponentBoard(opponent) {\n    const opponentCells = opponent.opponentBoard.cells;\n    const opponentBoardElement = document.querySelector(\".opponent-board\");\n\n    opponentCells.forEach((cell, index) => {\n      const cellElement = opponentBoardElement.querySelector(\n        `.cell[data-index='${index}']`\n      );\n      // mark as attempted\n      if (cell.attempted) cellElement.classList.add(\"dot\");\n    });\n  }\n}\n\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (GameUI);\n\n\n//# sourceURL=webpack://battleship/./src/ui.js?");
 
 /***/ })
 

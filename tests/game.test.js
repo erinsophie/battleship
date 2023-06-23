@@ -28,8 +28,6 @@ beforeEach(() => {
   game.player.placePlayerShip(34, 3, "x");
   game.player.placePlayerShip(59, 2, "y");
   game.player.placePlayerShip(86, 3, "x");
-  // call opponent board to set up its board
-  game.initGame();
 });
 
 test("Both gameboards are correctly initialised", () => {
@@ -40,8 +38,8 @@ test("Both gameboards are correctly initialised", () => {
 test("Each player takes a turn", () => {
   // at start of game
   expect(game.turn).toEqual(player);
-  // player shoots
-  game.switchTurn();
-  // after player turn
+  game.switchTurn(32);
   expect(game.turn).toEqual(opponent);
+  game.switchTurn();
+  expect(game.turn).toEqual(player);
 });
