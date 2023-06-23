@@ -9,8 +9,8 @@ class Opponent {
   }
 
   // opponent's board is set up with 5 ships placed in random legal cells
-  // safe gaurd in case computer keeps generating invalid indices to cap at 1000 attempts
   initBoard() {
+    // safe gaurd in case computer keeps generating invalid indices to cap at 1000 attempts
     let attemptCounter = 0;
 
     while (this.opponentBoard.ships.length < 5 && attemptCounter < 1000) {
@@ -39,7 +39,6 @@ class Opponent {
     } while (this.playerBoard.cells[index].attempted);
 
     this.playerBoard.attack(index);
-    console.log(index);
   }
 }
 

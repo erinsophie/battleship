@@ -16,9 +16,11 @@ class Player {
   // player takes their shot at opponent's board
   playTurn(index) {
     const notAttemptedBefore = !this.opponentBoard.cells[index].attempted;
-    // if player has not attempted this cell on opponent's board
-    // attack that opponent cell
-    if (notAttemptedBefore) this.opponentBoard.attack(index);
+    if (notAttemptedBefore) {
+      this.opponentBoard.attack(index);
+    } else {
+      console.log("You have already taken a shot here!");
+    }
   }
 }
 

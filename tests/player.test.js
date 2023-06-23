@@ -5,11 +5,13 @@ describe("basic player methods", () => {
   let player;
   let playerBoard;
   let opponentBoard;
+  let name;
 
   beforeEach(() => {
     playerBoard = new Gameboard();
     opponentBoard = new Gameboard();
-    player = new Player("Amy", playerBoard, opponentBoard);
+    name = "Amy";
+    player = new Player(name, playerBoard, opponentBoard);
   });
 
   test("Player is created with name, gameboard and opponent board", () => {

@@ -5,11 +5,13 @@ describe("opponent methods", () => {
   let opponent;
   let opponentBoard;
   let playerBoard;
+  let name;
 
   beforeEach(() => {
     opponentBoard = new Gameboard();
     playerBoard = new Gameboard();
-    opponent = new Opponent("Computer", opponentBoard, playerBoard);
+    name = "Computer";
+    opponent = new Opponent(name, opponentBoard, playerBoard);
   });
 
   test("Opponent is created with name, gameboard and player board", () => {
