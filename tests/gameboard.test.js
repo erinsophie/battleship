@@ -3,6 +3,7 @@ import Gameboard from "../src/gameboard.js";
 let gameboard;
 beforeEach(() => (gameboard = new Gameboard()));
 
+// placing ships
 describe("Placement of ships", () => {
   test("Initialises gameboard with 100 cells", () => {
     expect(gameboard.cells).toHaveLength(100);
@@ -52,10 +53,50 @@ describe("Placement of ships", () => {
   });
 });
 
+// attacking cells
 describe("Attacking cells", () => {
   test("If a cell gets attacked, it is marked as attempted", () => {
     gameboard.placeShip(41, 3, "x");
     gameboard.attack(41);
     expect(gameboard.cells[41].attempted).toBeTruthy();
+  });
+
+  test("Marks ship as hit", () => {
+    gameboard.placeShip(41, 3, "x");
+    gameboard.attack(41);
+    expect(gameboard.ships[0].hits).toEqual([41]);
+    expect(gameboard.cells[41].occupied).toBeTruthy();
+    expect(gameboard.cells[41].attempted).toBeTruthy();
+  });
+
+  test("No ship hit adds miss to array", () => {
+    gameboard.placeShip(41, 3, "x");
+    gameboard.attack(12);
+    expect(gameboard.misses).toEqual([12]);
+    expect(gameboard.cells[12].attempted).toBeTruthy();
+    expect(gameboard.cells[12].occupied).toBeFalsy();
+  });
+});
+
+// end of game
+describe("End of game conditions", () => {
+  test("Game knows when all ships are sunk", () => {
+    gameboard.placeShip(41, 3, "x");
+    gameboard.placeShip(56, 2, "x");
+    gameboard.attack(41);
+    gameboard.attack(42);
+    gameboard.attack(43);
+    gameboard.attack(56);
+    gameboard.attack(57);
+    expect(gameboard.allShipsSunk()).toBeTruthy();
+  });
+
+  test("Game knows when all ships are not sunk", () => {
+    gameboard.placeShip(41, 3, "x");
+    gameboard.placeShip(56, 2, "x");
+    gameboard.attack(41);
+    gameboard.attack(42);
+    gameboard.attack(43);
+    expect(gameboard.allShipsSunk()).toBeFalsy();
   });
 });

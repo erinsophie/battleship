@@ -88,22 +88,19 @@ class Gameboard {
   }
 
   attack(index) {
+    // marks cell as attempted
     this.cells[index].markAsAttempted();
-    // if cell contains a ship, send hit to that ship
+
+    // if cell contains a ship, call hit on that ship
     if (this.cells[index].occupied) {
       const hitShip = this.ships.find((ship) => ship.positions.includes(index));
-
       if (hitShip && !hitShip.hits.includes(index)) {
         hitShip.hit(index);
-        this.cells[index].markAsAttempted();
-        return true; // successful attack
       }
+    } else {
+      // if the cell is not occupied, add it to the misses array
+      this.misses.push(index);
     }
-    return false; // unsuccessful attack
-  }
-
-  addToMisses(index) {
-    if (!this.misses.includes(index)) this.misses.push(index);
   }
 
   allShipsSunk() {
