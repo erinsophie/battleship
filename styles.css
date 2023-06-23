@@ -1,0 +1,115 @@
+/* css reset */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+/* general */
+
+:root {
+  --background: #233162;
+  --white: #ffffff;
+  --green: #3ecf37;
+  --red: #d91f1f;
+}
+
+/* main */
+
+main {
+  border: 1px solid red;
+  display: flex;
+  flex-direction: column;
+  padding: 2%;
+  height: 100%;
+  background-color: var(--background);
+}
+
+#title {
+  color: var(--white);
+  border: 1px solid red;
+  text-align: center;
+  font-family: "Black Ops One", cursive;
+}
+
+#message {
+  height: 100px;
+  border: 1px solid red;
+}
+
+#board-container {
+  flex: 1;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 2%;
+  border: 1px solid red;
+}
+
+.board {
+  height: 460px;
+  width: 460px;
+  gap: 2px;
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+  border: 1px solid red;
+}
+
+.cell {
+  border: 1px solid var(--white);
+}
+
+.hit-ship {
+  background-color: red;
+}
+
+.dot {
+  height: 25px;
+  width: 25px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.ship {
+  background-color: aqua;
+}
