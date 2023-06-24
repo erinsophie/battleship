@@ -1,23 +1,29 @@
-import Gameboard from "./gameboard.js";
 import Player from "./player.js";
 import Opponent from "./opponent.js";
-import Ship from "./ship.js";
-import Game from "./game.js";
-import GameUI from "./ui.js";
+import Gameboard from "./gameboard.js";
+import GameLoop from "./gameLoop.js";
+import DOMInteraction from "./dom.js";
 
-const player = new Player("Player", new Gameboard(), new Gameboard());
-const opponent = new Opponent("Opponent", new Gameboard(), new Gameboard());
+// Initialize player's and opponent's gameboards
+const playerBoard = new Gameboard();
+const opponentBoard = new Gameboard();
 
-// manually inserting player ships
-player.placePlayerShip(10, 3, "x");
-player.placePlayerShip(67, 2, "x");
-player.placePlayerShip(20, 5, "y");
-player.placePlayerShip(85, 4, "x");
-player.placePlayerShip(90, 3, "x");
+// Place the player's ships
+playerBoard.placeShip(0, 5, "x");
+playerBoard.placeShip(17, 4, "y");
+playerBoard.placeShip(32, 3, "x");
+playerBoard.placeShip(55, 3, "y");
+playerBoard.placeShip(61, 2, "x");
 
-const ui = new GameUI(player, opponent); // View
-const game = new Game(player, opponent, ui); // Controller
+// Initialize player and opponent
+const player = new Player("Player", playerBoard, opponentBoard);
+const opponent = new Opponent("Opponent", opponentBoard, playerBoard);
 
-// Now the ships have been placed before creating UI
-// and the game is created after the UI
-game.ui.updateBoards(player, opponent); // Use player and opponent variables directly
+// Initialize the game
+const game = new GameLoop(player, opponent);
+
+// Initialize the DOM Interaction module
+const domInteraction = new DOMInteraction(game, player, opponent);
+
+// Start the game
+domInteraction.init();

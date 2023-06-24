@@ -98,16 +98,17 @@ main {
   border: 1px solid var(--white);
 }
 
-.hit-ship {
-  background-color: red;
-}
-
-.dot {
-  height: 25px;
-  width: 25px;
+.attempted,
+.hit {
+  height: 10px;
+  width: 10px;
   background-color: #bbb;
   border-radius: 50%;
   display: inline-block;
+}
+
+.hit {
+  background-color: #d91f1f;
 }
 
 .ship {
