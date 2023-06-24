@@ -11,11 +11,8 @@ class DOMInteraction {
   // render computer board
   renderOpponentBoard(board) {
     const boardElement = document.getElementById("opponent-board");
-
-    // Clear previous state
     boardElement.innerHTML = "";
 
-    // Render new state
     board.cells.forEach((cell, index) => {
       // Create a new div for each cell object
       let cellElement = document.createElement("div");
@@ -43,10 +40,8 @@ class DOMInteraction {
   // render player board
   renderPlayerBoard(board) {
     const boardElement = document.getElementById("player-board");
-    // Clear previous state
     boardElement.innerHTML = "";
 
-    // Render new state
     board.cells.forEach((cell, index) => {
       // Create a new div for each cell object
       let cellElement = document.createElement("div");
@@ -66,7 +61,7 @@ class DOMInteraction {
     });
   }
 
-  // update the both boards on each turn
+  // update both boards on each turn
   updateBoards() {
     this.renderPlayerBoard(this.player.playerBoard);
     this.renderOpponentBoard(this.opponent.opponentBoard);
@@ -74,23 +69,50 @@ class DOMInteraction {
 
   handleCellClick(event) {
     const cellIndex = event.target.dataset.index;
-    // when a cell is clicked, execute player turn
-    // if player took their turn, then update both boards
-    // wait 1 second and then execute the computers attack
     const playerTookTurn = this.game.executePlayerTurn(cellIndex);
 
     if (playerTookTurn) {
       this.updateBoards();
-      // Delay computer's turn by 2 seconds
-      setTimeout(() => {
-        this.game.executeComputerTurn();
-        this.updateBoards();
-        if (this.game.isGameOver) {
-          this.displayWinner();
-        }
-      }, 1000);
-    } else {
-      this.displayMessage("You have already fired here!");
+      this.updateMessage(cellIndex);
+
+      // Check if game is over after player's turn
+      if (this.game.isGameOver) {
+        // if so, display winner
+        this.displayWinner();
+      } else {
+        // Delay computer's turn by 2 seconds
+        setTimeout(() => {
+          const computerChosenIndex = this.game.executeComputerTurn();
+          this.updateBoards();
+          this.updateMessage(computerChosenIndex);
+
+          // Check if game is over after computer's turn
+          if (this.game.isGameOver) {
+            this.displayWinner();
+          }
+        }, 2000);
+      }
+    }
+    return;
+  }
+
+  updateMessage(cellIndex) {
+    if (this.game.turn === this.player) {
+      const cell = this.opponent.opponentBoard.cells[cellIndex];
+      if (cell.occupied) {
+        this.displayMessage(`You fire a shot and...it's a hit!`);
+      } else {
+        this.displayMessage(`You fire a shot and...it's a miss.`);
+      }
+    }
+
+    if (this.game.turn === this.opponent) {
+      const cell = this.player.playerBoard.cells[cellIndex];
+      if (cell.occupied) {
+        this.displayMessage(`Enemy fires a shot and...it's a hit!`);
+      } else {
+        this.displayMessage(`Enemy fires a shot and...it's a miss.`);
+      }
     }
   }
 
@@ -109,7 +131,7 @@ class DOMInteraction {
   // Method to initialize the game
   init() {
     this.updateBoards();
-    this.displayMessage();
+    this.displayMessage(`${this.player.name}, take the first shot!`);
   }
 }
 

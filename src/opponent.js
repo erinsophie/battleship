@@ -39,6 +39,7 @@ class Opponent {
     } while (this.playerBoard.cells[index].attempted);
 
     this.playerBoard.attack(index);
+    return index 
   }
 }
 

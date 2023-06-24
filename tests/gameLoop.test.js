@@ -28,11 +28,13 @@ describe("Game loop logic", () => {
     expect(game.isGameOver).toBeFalsy();
   });
 
-  test("Player turn triggers opponent turn", () => {
-    // mock computer turn
-    game.executeComputerTurn = jest.fn();
-    game.executePlayerTurn(12);
-
-    expect(game.executeComputerTurn).toHaveBeenCalled();
+  test("Updates who's turn it is", () => {
+    game.executePlayerTurn(23);
+    game.executeComputerTurn();
+    expect(game.turn).toEqual(opponent);
+    game.executePlayerTurn(67);
+    expect(game.turn).toEqual(player);
+    game.executeComputerTurn();
+    expect(game.turn).toEqual(opponent);
   });
 });

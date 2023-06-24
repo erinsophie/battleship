@@ -8,6 +8,7 @@ class GameLoop {
     this.player = player;
     this.opponent = opponent;
     this.isGameOver = false;
+    this.turn = this.player;
   }
 
   // check if game is over
@@ -17,7 +18,6 @@ class GameLoop {
       this.opponent.opponentBoard.allShipsSunk()
     ) {
       this.isGameOver = true;
-      this.returnWinner();
     }
   }
 
@@ -27,6 +27,7 @@ class GameLoop {
 
     if (isValidMove) {
       this.checkGameOver();
+      this.turn = this.player;
       return true;
     } else {
       return false;
@@ -34,8 +35,10 @@ class GameLoop {
   }
 
   executeComputerTurn() {
+    const index = this.opponent.playTurn();
     this.checkGameOver();
-    this.opponent.playTurn();
+    this.turn = this.opponent;
+    return index;
   }
 
   returnWinner() {
