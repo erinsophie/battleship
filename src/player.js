@@ -15,12 +15,13 @@ class Player {
 
   // player takes their shot at opponent's board
   playTurn(index) {
-    const notAttemptedBefore = !this.opponentBoard.cells[index].attempted;
-    if (notAttemptedBefore) {
-      this.opponentBoard.attack(index);
-    } else {
-      console.log("You have already taken a shot here!");
-    }
+    // if the cell the player is attempting to attack has already been attacked
+    // return false indicating that the player's turn did not execute
+    if (this.opponentBoard.cells[index].attempted) return false;
+    // else execute attack on opponent board
+    this.opponentBoard.attack(index);
+    // return true to indicate that the player took their turn
+    return true;
   }
 }
 

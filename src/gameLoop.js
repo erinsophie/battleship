@@ -7,7 +7,6 @@ class GameLoop {
     // so we know the status of each game board
     this.player = player;
     this.opponent = opponent;
-    this.turn = this.player;
     this.isGameOver = false;
   }
 
@@ -22,16 +21,21 @@ class GameLoop {
     }
   }
 
-  // taking turns
-  switchTurn(index) {
-    if (this.turn === this.player) {
-      this.player.playTurn(index);
-      this.turn = this.opponent;
-    } else if (this.turn === this.opponent) {
-      this.opponent.playTurn();
-      this.turn = this.player;
+  // execute player attack
+  executePlayerTurn(index) {
+    const isValidMove = this.player.playTurn(index);
+
+    if (isValidMove) {
+      this.checkGameOver();
+      return true;
+    } else {
+      return false;
     }
+  }
+
+  executeComputerTurn() {
     this.checkGameOver();
+    this.opponent.playTurn();
   }
 
   returnWinner() {

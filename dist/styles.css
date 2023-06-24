@@ -9,6 +9,7 @@
 * {
   margin: 0;
   padding: 0;
+  font-family: 'Special Elite', cursive;
 }
 
 html,
@@ -48,7 +49,7 @@ h6 {
 :root {
   --background: #233162;
   --white: #ffffff;
-  --green: #3ecf37;
+  --green: 46, 204, 113, 0.5;
   --red: #d91f1f;
 }
 
@@ -72,6 +73,9 @@ main {
 
 #message {
   height: 100px;
+  color: var(--white);
+  text-align: center;
+  font-size: 1.3rem;
   border: 1px solid red;
 }
 
@@ -98,19 +102,31 @@ main {
   border: 1px solid var(--white);
 }
 
-.attempted,
-.hit {
-  height: 10px;
-  width: 10px;
-  background-color: #bbb;
+.attempted::after {
+  content: "";
+  display: block;
+  height: 15px;
+  width: 15px;
+  background-color: white;
   border-radius: 50%;
-  display: inline-block;
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
-.hit {
-  background-color: #d91f1f;
+.hit::after {
+  background-color: red;
 }
 
 .ship {
   background-color: aqua;
+}
+
+.valid:hover {
+  background-color: green;
+}
+
+.invalid:hover {
+  background-color: red;
 }

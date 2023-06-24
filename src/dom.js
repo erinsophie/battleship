@@ -8,6 +8,7 @@ class DOMInteraction {
     this.opponent = opponent;
   }
 
+  // render computer board
   renderOpponentBoard(board) {
     const boardElement = document.getElementById("opponent-board");
 
@@ -21,12 +22,17 @@ class DOMInteraction {
       cellElement.dataset.index = index;
       cellElement.classList.add("cell");
 
-      // if cell was attempted and hits a ship
-      if (cell.attempted && cell.occupied) cellElement.classList.add("hit");
+      // change hover color based on if it's a valid place to take a shot
+      !cell.attempted
+        ? cellElement.classList.add("valid")
+        : cellElement.classList.add("invalid");
 
-      // if cell was attempted but is not occupied
-      if (cell.attempted && !cell.occupied)
+      // when a cell is clicked mark with a dot
+      if (cell.attempted) {
         cellElement.classList.add("attempted");
+        // if it hits a ship
+        if (cell.occupied) cellElement.classList.add("hit");
+      }
 
       // add event listener to each cell
       cellElement.addEventListener("click", this.handleCellClick.bind(this));
@@ -34,10 +40,9 @@ class DOMInteraction {
     });
   }
 
-  // Method to render the game board
+  // render player board
   renderPlayerBoard(board) {
     const boardElement = document.getElementById("player-board");
-    const playerShips = board.ships;
     // Clear previous state
     boardElement.innerHTML = "";
 
@@ -51,41 +56,47 @@ class DOMInteraction {
       // show player their ships
       if (cell.occupied) cellElement.classList.add("ship");
 
-      // if cell was attempted and hits a ship
-      if (cell.attempted && cell.occupied) cellElement.classList.add("hit");
-
-      // if cell was attempted but is not occupied
-      if (cell.attempted && !cell.occupied)
+      if (cell.attempted) {
         cellElement.classList.add("attempted");
+        // if it hits a ship
+        if (cell.occupied) cellElement.classList.add("hit");
+      }
 
       boardElement.appendChild(cellElement);
     });
   }
 
-  // Method to update the game boards each turn
+  // update the both boards on each turn
   updateBoards() {
     this.renderPlayerBoard(this.player.playerBoard);
     this.renderOpponentBoard(this.opponent.opponentBoard);
   }
 
-  // Method to handle cell clicks
   handleCellClick(event) {
     const cellIndex = event.target.dataset.index;
-    this.player.playTurn(cellIndex);
-    this.updateBoards();
+    // when a cell is clicked, execute player turn
+    // if player took their turn, then update both boards
+    // wait 1 second and then execute the computers attack
+    const playerTookTurn = this.game.executePlayerTurn(cellIndex);
+
+    if (playerTookTurn) {
+      this.updateBoards();
+      // Delay computer's turn by 2 seconds
+      setTimeout(() => {
+        this.game.executeComputerTurn();
+        this.updateBoards();
+        if (this.game.isGameOver) {
+          this.displayWinner();
+        }
+      }, 1000);
+    } else {
+      this.displayMessage("You have already fired here!");
+    }
   }
 
   // Method to display a message
-  displayMessage() {
+  displayMessage(message) {
     const messageElement = document.getElementById("message");
-    let message;
-
-    if (this.game.turn === this.player) {
-      message = `${this.player.name} take your shot!`;
-    } else {
-      message = "The enemy is firing!";
-    }
-
     messageElement.textContent = message;
   }
 
