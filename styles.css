@@ -72,9 +72,11 @@ main {
 }
 
 #message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 100px;
   color: var(--white);
-  text-align: center;
   font-size: 1.3rem;
   border: 1px solid red;
 }
