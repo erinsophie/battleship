@@ -87,24 +87,39 @@ class Gameboard {
     }
   }
 
-  attack(index) {
-    // marks cell as attempted
+  attack(position) {
+    const index = parseInt(position);
+    // mark cell as attempted
     this.cells[index].markAsAttempted();
 
-    // if cell contains a ship, call hit on that ship
+    // check if the cell that was hit is occupied
     if (this.cells[index].occupied) {
-      const hitShip = this.ships.find((ship) => ship.positions.includes(index));
-      if (hitShip && !hitShip.hits.includes(index)) {
-        hitShip.hit(index);
-      }
+      // find which ship it belongs to
+      let shipThatWasHit;
+
+      this.ships.forEach((ship) => {
+        if (ship.positions.includes(index)) shipThatWasHit = ship;
+      });
+
+      console.log("ship that was hit");
+      console.log(shipThatWasHit);
+
+      // if it is, call hit method on that cell to push that index into its hits array
+      shipThatWasHit.hit(index);
     } else {
       // if the cell is not occupied, add it to the misses array
       this.misses.push(index);
+      console.log("Misses:");
+      console.log(this.misses);
     }
   }
 
   allShipsSunk() {
-    return this.ships.every((ship) => ship.isSunk());
+    if (this.ships.every((ship) => ship.isSunk())) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
 

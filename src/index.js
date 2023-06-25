@@ -27,3 +27,6 @@ const domInteraction = new DOMInteraction(game, player, opponent);
 
 // Start the game
 domInteraction.init();
+
+console.log(game.opponent.opponentBoard.ships)
+

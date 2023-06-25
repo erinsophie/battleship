@@ -1,7 +1,3 @@
-// Set up a new game by creating Players and Gameboards with predetermined coordinates.
-// Step through the game turn by turn using methods from other objects.
-// End the game once all ships of a player have been sunk.
-
 class GameLoop {
   constructor(player, opponent) {
     // so we know the status of each game board
@@ -23,11 +19,17 @@ class GameLoop {
 
   // execute player attack
   executePlayerTurn(index) {
+    console.log(`Player's attack at index: ${index}`)
     const isValidMove = this.player.playTurn(index);
+
+    console.log("Opponent ships that have been hit:");
+    this.opponent.opponentBoard.ships.forEach((ship) => {
+      console.log(ship.hits);
+    });
 
     if (isValidMove) {
       this.checkGameOver();
-      this.turn = this.player;
+      this.turn = this.opponent;
       return true;
     } else {
       return false;
@@ -36,13 +38,21 @@ class GameLoop {
 
   executeComputerTurn() {
     const index = this.opponent.playTurn();
+
+    console.log("Player ships that have been hit:");
+    this.player.playerBoard.ships.forEach((ship) => {
+      console.log(ship.hits);
+    });
+
     this.checkGameOver();
-    this.turn = this.opponent;
+    this.turn = this.player;
     return index;
   }
 
   returnWinner() {
-    let winner = this.player.playerBoard.allShipsSunk() ? opponent : player;
+    const winner = this.player.playerBoard.allShipsSunk()
+      ? this.opponent
+      : this.player;
     return winner;
   }
 }

@@ -16,6 +16,16 @@ describe("Placement of ships", () => {
     expect(gameboard.isValidPlacement(72, 5, "y")).toBe(false);
   });
 
+  test.only("Counts ships correctly", () => {
+    gameboard.placeShip(10, 5, "x");
+    gameboard.placeShip(20, 4, "x");
+    gameboard.placeShip(30, 3, "x");
+    gameboard.placeShip(40, 3, "x");
+    gameboard.placeShip(50, 2, "x");
+    expect(gameboard.ships).toHaveLength(5);
+    expect(gameboard.ships[4].positions).toEqual([50, 51])
+  });
+
   test("Marks correct cells as occupied if position is valid", () => {
     gameboard.placeShip(12, 3, "x");
     expect(gameboard.cells[11].occupied).toBe(false);

@@ -1,11 +1,9 @@
-// Render the gameboards on the webpage.
-// Take user input for attacking (click on a coordinate on the enemy Gameboard).
-
 class DOMInteraction {
   constructor(game, player, opponent) {
     this.game = game;
     this.player = player;
     this.opponent = opponent;
+    this.displayWinner = this.displayWinner.bind(this);
   }
 
   // render computer board
@@ -69,50 +67,60 @@ class DOMInteraction {
 
   handleCellClick(event) {
     const cellIndex = event.target.dataset.index;
+    // execute player's turn
     const playerTookTurn = this.game.executePlayerTurn(cellIndex);
 
+    // if player took their turn
     if (playerTookTurn) {
       this.updateBoards();
       this.updateMessage(cellIndex);
 
       // Check if game is over after player's turn
       if (this.game.isGameOver) {
-        // if so, display winner
+        console.log(this.game.isGameOver);
         this.displayWinner();
       } else {
-        // Delay computer's turn by 2 seconds
-        setTimeout(() => {
-          const computerChosenIndex = this.game.executeComputerTurn();
-          this.updateBoards();
-          this.updateMessage(computerChosenIndex);
+        // Wrap the computer's turn inside a Promise
+        new Promise((resolve) => {
+          setTimeout(() => {
+            const computerChosenIndex = this.game.executeComputerTurn();
+            this.updateBoards();
+            this.updateMessage(computerChosenIndex);
 
-          // Check if game is over after computer's turn
+            resolve(); // Resolve the promise
+          }, 1000);
+        }).then(() => {
+          // Check if game is over after the promise is resolved (computer's turn)
+          console.log("Promise resolved, checking if game is over...");
+          console.log(this.game.isGameOver);
           if (this.game.isGameOver) {
             this.displayWinner();
           }
-        }, 2000);
+        });
       }
+    } else {
+      this.displayMessage("You have already fired here!");
     }
-    return;
   }
 
   updateMessage(cellIndex) {
-    if (this.game.turn === this.player) {
-      const cell = this.opponent.opponentBoard.cells[cellIndex];
-      if (cell.occupied) {
-        this.displayMessage(`You fire a shot and...it's a hit!`);
-      } else {
-        this.displayMessage(`You fire a shot and...it's a miss.`);
-      }
-    }
+    const playerMiss = `You fire a shot and...it's a miss!`;
+    const playerHit = `You fire a shot and...it's a hit!`;
+    const opponentMiss = `Enemy fires a shot and...it's a miss!`;
+    const opponentHit = `Enemy fires a shot and...it's a hit!`;
 
     if (this.game.turn === this.opponent) {
+      const cell = this.opponent.opponentBoard.cells[cellIndex];
+      cell.occupied
+        ? this.displayMessage(playerHit)
+        : this.displayMessage(playerMiss);
+    }
+
+    if (this.game.turn === this.player) {
       const cell = this.player.playerBoard.cells[cellIndex];
-      if (cell.occupied) {
-        this.displayMessage(`Enemy fires a shot and...it's a hit!`);
-      } else {
-        this.displayMessage(`Enemy fires a shot and...it's a miss.`);
-      }
+      cell.occupied
+        ? this.displayMessage(opponentHit)
+        : this.displayMessage(opponentMiss);
     }
   }
 
@@ -125,6 +133,7 @@ class DOMInteraction {
   // Method to display the winner
   displayWinner() {
     const winner = this.game.returnWinner();
+    console.log("Winner is: ", winner);
     this.displayMessage(`${winner.name} wins!`);
   }
 
