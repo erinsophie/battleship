@@ -66,7 +66,7 @@ class DOMInteraction {
   }
 
   handleCellClick(event) {
-    const cellIndex = event.target.dataset.index;
+    const cellIndex = parseInt(event.target.dataset.index);
     // execute player's turn
     const playerTookTurn = this.game.executePlayerTurn(cellIndex);
 
@@ -77,7 +77,6 @@ class DOMInteraction {
 
       // Check if game is over after player's turn
       if (this.game.isGameOver) {
-        console.log(this.game.isGameOver);
         this.displayWinner();
       } else {
         // Wrap the computer's turn inside a Promise
@@ -91,14 +90,12 @@ class DOMInteraction {
           }, 1000);
         }).then(() => {
           // Check if game is over after the promise is resolved (computer's turn)
-          console.log("Promise resolved, checking if game is over...");
-          console.log(this.game.isGameOver);
           if (this.game.isGameOver) {
             this.displayWinner();
           }
         });
       }
-    } else {
+    } else if (!this.game.isGameOver) {
       this.displayMessage("You have already fired here!");
     }
   }
@@ -133,8 +130,11 @@ class DOMInteraction {
   // Method to display the winner
   displayWinner() {
     const winner = this.game.returnWinner();
-    console.log("Winner is: ", winner);
-    this.displayMessage(`${winner.name} wins!`);
+
+    const modal = document.getElementById("winner-modal");
+    modal.classList.add("active");
+    const message = document.getElementById("winner-name");
+    message.textContent = `${winner.name} wins!`;
   }
 
   // Method to initialize the game

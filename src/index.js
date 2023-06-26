@@ -16,7 +16,7 @@ playerBoard.placeShip(55, 3, "y");
 playerBoard.placeShip(61, 2, "x");
 
 // Initialize player and opponent
-const player = new Player("Player", playerBoard, opponentBoard);
+const player = new Player("Amy", playerBoard, opponentBoard);
 const opponent = new Opponent("Opponent", opponentBoard, playerBoard);
 
 // Initialize the game
@@ -28,5 +28,6 @@ const domInteraction = new DOMInteraction(game, player, opponent);
 // Start the game
 domInteraction.init();
 
-console.log(game.opponent.opponentBoard.ships)
-
+game.opponent.opponentBoard.ships.forEach((ship) =>
+  console.log(ship.positions)
+);

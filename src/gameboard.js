@@ -87,8 +87,7 @@ class Gameboard {
     }
   }
 
-  attack(position) {
-    const index = parseInt(position);
+  attack(index) {
     // mark cell as attempted
     this.cells[index].markAsAttempted();
 
@@ -101,25 +100,16 @@ class Gameboard {
         if (ship.positions.includes(index)) shipThatWasHit = ship;
       });
 
-      console.log("ship that was hit");
-      console.log(shipThatWasHit);
-
-      // if it is, call hit method on that cell to push that index into its hits array
+      // call hit method on that cell to push that index into its hits array
       shipThatWasHit.hit(index);
     } else {
       // if the cell is not occupied, add it to the misses array
       this.misses.push(index);
-      console.log("Misses:");
-      console.log(this.misses);
     }
   }
 
   allShipsSunk() {
-    if (this.ships.every((ship) => ship.isSunk())) {
-      return true;
-    } else {
-      return false;
-    }
+    return this.ships.every((ship) => ship.isSunk());
   }
 }
 

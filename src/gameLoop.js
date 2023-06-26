@@ -19,7 +19,11 @@ class GameLoop {
 
   // execute player attack
   executePlayerTurn(index) {
-    console.log(`Player's attack at index: ${index}`)
+    // if game is over, prevent attack
+    if (this.isGameOver) return;
+
+    // attack only happens if cell is valid,
+    // meaning it hasnt been attacked before
     const isValidMove = this.player.playTurn(index);
 
     console.log("Opponent ships that have been hit:");

@@ -23,16 +23,21 @@
       <h1 id="title">Battleship</h1>
       <div id="message"></div>
 
-      <div id="board-container">
-        <div class="board" id="player-board"></div>
-        <div class="board" id="opponent-board"></div>
+      <div id="boards-container">
+        <div class="board-container">
+          <p>Your fleet</p>
+          <div class="board" id="player-board"></div>
+        </div>
+        <div class="board-container">
+          <p>Enemy waters</p>
+          <div class="board" id="opponent-board"></div>
+        </div>
       </div>
 
       <div id="winner-modal" class="modal">
         <h2 id="winner-name"></h2>
         <button id="reset-game">New Game</button>
       </div>
-
     </main>
     <script src="main.js"></script>
   </body>
