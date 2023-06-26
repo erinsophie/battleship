@@ -170,7 +170,9 @@ button {
   transform: translate(-50%, -50%) scale(1);
 }
 
-#new-game-btn, #start-game-btn {
+#new-game-btn,
+.start-game-btn,
+.axis-btn {
   padding: 10px;
   border-radius: 10px;
   border: 1px solid var(--white);
@@ -189,4 +191,14 @@ button {
 
 #overlay.active {
   display: block;
+}
+
+#place-ships {
+  width: 700px;
+  justify-content: space-between;
+  background-color: var(--dark-blue);
+}
+
+.ship-placement:hover {
+  background-color: aqua;
 }
