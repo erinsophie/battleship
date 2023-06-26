@@ -1,18 +1,105 @@
+import Gameboard from "./gameboard.js";
+import Ship from "./ship.js";
+
 class DOMInteraction {
   constructor(game, player, opponent) {
     this.game = game;
     this.player = player;
     this.opponent = opponent;
-    this.init();
-    this.placeShips;
+    this.shipsPlaced = 0;
+    this.positions = [];
+    this.axis = "x";
   }
 
-  placeShips() {
-    this.player.playerBoard.placeShips(10, 5, "y");
-    this.player.playerBoard.placeShips(10, 5, "y");
-    this.player.playerBoard.placeShips(10, 5, "y");
-    this.player.playerBoard.placeShips(10, 5, "y");
-    this.player.playerBoard.placeShips(10, 5, "y");
+  placeShipsModal() {
+    // create modal and overlay
+    const modal = document.getElementById("place-ships");
+    modal.innerHTML = "";
+    modal.classList.add("active");
+    const overlay = document.getElementById("overlay");
+    overlay.classList.add("active");
+
+    // create axis button
+    const axisBtn = document.createElement("button");
+    axisBtn.classList.add("axis-btn");
+    axisBtn.textContent = "X Axis";
+    axisBtn.addEventListener("click", () => {
+      this.axis === "x" ? (this.axis = "y") : (this.axis = "x");
+    });
+
+    // create player board element
+    const playerBoardElement = document.createElement("div");
+    playerBoardElement.classList.add("board");
+
+    // create start game button
+    const startGameBtn = document.createElement("button");
+    startGameBtn.classList.add("start-game-btn");
+    startGameBtn.textContent = "Start Game";
+    startGameBtn.addEventListener("click", () => {
+      if (this.shipsPlaced === 5) this.finishPlacement();
+    });
+
+    // create gameboard object
+    const newGameboard = new Gameboard();
+
+    // create 100 divs
+    newGameboard.cells.forEach((cell, index) => {
+      let cellElement = document.createElement("div");
+      cellElement.dataset.index = index;
+      cellElement.classList.add("cell");
+      cellElement.classList.add("ship-placement");
+
+      cellElement.addEventListener("click", () =>
+        this.handlePlacement(index, newGameboard)
+      );
+      playerBoardElement.append(cellElement);
+    });
+
+    modal.appendChild(axisBtn);
+    modal.appendChild(playerBoardElement);
+    modal.appendChild(startGameBtn);
+  }
+
+  handlePlacement(index, board) {
+    if (this.shipsPlaced === 5) return;
+
+    const length = this.game.player.shipSizes[this.shipsPlaced];
+    const axis = this.axis;
+
+    if (board.isValidPlacement(index, length, axis)) {
+      const end =
+        axis === "x" ? index + (length - 1) : index + (length - 1) * 10;
+      const positions = [];
+
+      for (let i = index; i <= end; i += axis === "x" ? 1 : 10) {
+        positions.push(i);
+      }
+
+      this.positions.push(positions);
+      this.shipsPlaced++;
+      console.log(this.positions);
+      console.log(this.shipsPlaced);
+    } else {
+      return;
+    }
+  }
+
+  finishPlacement() {
+    this.positions.forEach((positions, i) => {
+      const ship = new Ship(positions);
+      this.player.playerBoard.ships[i] = ship;
+
+      positions.forEach((pos) => {
+        this.player.playerBoard.cells[pos].markAsOccupied();
+      });
+    });
+
+    const modal = document.getElementById("place-ships");
+    modal.classList.remove("active");
+    const overlay = document.getElementById("overlay");
+    overlay.classList.remove("active");
+
+    this.init(); //when player has placed all ships, now we start the game
   }
 
   // render computer board

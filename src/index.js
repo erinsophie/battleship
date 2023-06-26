@@ -5,6 +5,7 @@ import DOMInteraction from "./dom.js";
 const game = new GameLoop();
 
 const domInteraction = new DOMInteraction(game, game.player, game.opponent);
+domInteraction.placeShipsModal();
 
 game.opponent.opponentBoard.ships.forEach((ship) =>
   console.log(ship.positions)

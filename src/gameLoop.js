@@ -6,7 +6,6 @@ class GameLoop {
   constructor() {
     const playerBoard = new Gameboard();
     const opponentBoard = new Gameboard();
-
     this.player = new Player("Amy", playerBoard, opponentBoard);
     this.opponent = new Opponent("Opponent", opponentBoard, playerBoard);
     this.isGameOver = false;

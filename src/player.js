@@ -3,13 +3,12 @@ class Player {
     this.name = name;
     this.playerBoard = playerBoard;
     this.opponentBoard = opponentBoard;
+    this.shipSizes = [2, 3, 3, 4, 5];
   }
 
   // let player place 5 ships
   placePlayerShip(start, length, axis) {
-    if (this.playerBoard.ships.length < 5) {
-      this.playerBoard.placeShip(start, length, axis);
-    }
+    this.playerBoard.placeShip(start, length, axis);
   }
 
   // player takes their shot at opponent's board
