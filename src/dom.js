@@ -3,7 +3,16 @@ class DOMInteraction {
     this.game = game;
     this.player = player;
     this.opponent = opponent;
-    this.displayWinner = this.displayWinner.bind(this);
+    this.init();
+    this.placeShips;
+  }
+
+  placeShips() {
+    this.player.playerBoard.placeShips(10, 5, "y");
+    this.player.playerBoard.placeShips(10, 5, "y");
+    this.player.playerBoard.placeShips(10, 5, "y");
+    this.player.playerBoard.placeShips(10, 5, "y");
+    this.player.playerBoard.placeShips(10, 5, "y");
   }
 
   // render computer board
@@ -131,10 +140,13 @@ class DOMInteraction {
   displayWinner() {
     const winner = this.game.returnWinner();
 
+    // activate modal and overlay
     const modal = document.getElementById("winner-modal");
     modal.classList.add("active");
     const message = document.getElementById("winner-name");
-    message.textContent = `${winner.name} wins!`;
+    message.textContent = `Admiral ${winner.name} wins!`;
+    const overlay = document.getElementById("overlay");
+    overlay.classList.add("active");
   }
 
   // Method to initialize the game

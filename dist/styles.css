@@ -47,10 +47,10 @@ h6 {
 /* general */
 
 :root {
-  --background: #233162;
+  --dark-blue: rgba(40, 54, 102);
   --white: #ffffff;
-  --green: 46, 204, 113, 0.5;
-  --red: #d91f1f;
+  --light-grey: rgba(220, 220, 220, 0.5);
+  --dark-grey: rgba(184, 184, 184, 0.5);
 }
 
 /* main */
@@ -60,7 +60,7 @@ main {
   flex-direction: column;
   padding: 2%;
   height: 100%;
-  background-color: var(--background);
+  background-color: var(--dark-blue);
   color: var(--white);
 }
 
@@ -76,7 +76,6 @@ main {
   align-items: center;
   height: 40px;
   font-size: 1.3rem;
-
 }
 
 #boards-container {
@@ -93,8 +92,8 @@ main {
 }
 
 .board-container p {
-   padding: 10px;
-   font-size: 1.3rem;
+  padding: 10px;
+  font-size: 1.3rem;
 }
 
 .board {
@@ -128,7 +127,7 @@ main {
 }
 
 .sunk::after {
-  background-color: darkgray;
+  background-color: var(--dark-grey);
 }
 
 .ship {
@@ -145,27 +144,40 @@ main {
 
 /* modal */
 
+button {
+  cursor: pointer;
+}
+
 .modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--light-grey);
+  border: 1px solid var(--white);
+  border-radius: 10px;
+  gap: 20px;
   position: fixed;
   z-index: 1;
   top: 50%;
   left: 50%;
   width: 300px;
+  padding: 20px;
   transform: translate(-50%, -50%) scale(0);
   transition: 0.2s ease-in-out;
-  padding: 20px;
-  background-color: grey;
 }
 
 .modal.active {
   transform: translate(-50%, -50%) scale(1);
 }
 
-.overlay.active {
-  display: block;
+#new-game-btn, #start-game-btn {
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid var(--white);
+  background-color: var(--dark-blue);
 }
 
-.overlay {
+#overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -173,4 +185,8 @@ main {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
+}
+
+#overlay.active {
+  display: block;
 }

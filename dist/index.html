@@ -23,6 +23,8 @@
       <h1 id="title">Battleship</h1>
       <div id="message"></div>
 
+      <!---- boards ---->
+
       <div id="boards-container">
         <div class="board-container">
           <p>Your fleet</p>
@@ -34,10 +36,22 @@
         </div>
       </div>
 
+      <!---- place ships modal ---->
+
+      <div id="place-ships" class="modal">
+        <h2 id="place-ship-msg"></h2>
+        <button id="start-game-btn" class="button">Start Game</button>
+      </div>
+
+      <!---- winner modal ---->
+
       <div id="winner-modal" class="modal">
         <h2 id="winner-name"></h2>
-        <button id="reset-game">New Game</button>
+        <button id="new-game-btn" class="button">New Game</button>
       </div>
+
+      <!---- overlay ---->
+      <div id="overlay"></div>
     </main>
     <script src="main.js"></script>
   </body>

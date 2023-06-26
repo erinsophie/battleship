@@ -1,8 +1,14 @@
+import Gameboard from "./gameboard.js";
+import Player from "./player.js";
+import Opponent from "./opponent.js";
+
 class GameLoop {
-  constructor(player, opponent) {
-    // so we know the status of each game board
-    this.player = player;
-    this.opponent = opponent;
+  constructor() {
+    const playerBoard = new Gameboard();
+    const opponentBoard = new Gameboard();
+
+    this.player = new Player("Amy", playerBoard, opponentBoard);
+    this.opponent = new Opponent("Opponent", opponentBoard, playerBoard);
     this.isGameOver = false;
     this.turn = this.player;
   }
@@ -19,8 +25,8 @@ class GameLoop {
 
   // execute player attack
   executePlayerTurn(index) {
-    // if game is over, prevent attack
-    if (this.isGameOver) return;
+    // if game is over or if it's still opponent's, prevent attack
+    if (this.isGameOver || this.turn === this.opponent) return;
 
     // attack only happens if cell is valid,
     // meaning it hasnt been attacked before

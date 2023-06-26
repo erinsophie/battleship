@@ -1,4 +1,3 @@
-// represents the player's board and their functionality
 class Player {
   constructor(name, playerBoard, opponentBoard) {
     this.name = name;
