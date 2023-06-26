@@ -56,17 +56,16 @@ h6 {
 /* main */
 
 main {
-  border: 1px solid red;
   display: flex;
   flex-direction: column;
   padding: 2%;
   height: 100%;
   background-color: var(--background);
+  color: var(--white);
 }
 
 #title {
   color: var(--white);
-  border: 1px solid red;
   text-align: center;
   font-family: "Black Ops One", cursive;
 }
@@ -75,19 +74,27 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100px;
-  color: var(--white);
+  height: 40px;
   font-size: 1.3rem;
-  border: 1px solid red;
+
 }
 
-#board-container {
+#boards-container {
   flex: 1;
   display: flex;
   justify-content: space-around;
   align-items: center;
-  padding: 2%;
-  border: 1px solid red;
+}
+
+.board-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.board-container p {
+   padding: 10px;
+   font-size: 1.3rem;
 }
 
 .board {
@@ -97,7 +104,6 @@ main {
   display: grid;
   grid-template-columns: repeat(10, 1fr);
   grid-template-rows: repeat(10, 1fr);
-  border: 1px solid red;
 }
 
 .cell {
@@ -121,6 +127,10 @@ main {
   background-color: red;
 }
 
+.sunk::after {
+  background-color: darkgray;
+}
+
 .ship {
   background-color: aqua;
 }
@@ -133,25 +143,34 @@ main {
   background-color: red;
 }
 
+/* modal */
+
 .modal {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
   position: fixed;
   z-index: 1;
   top: 50%;
   left: 50%;
   width: 300px;
-  text-align: center;
   transform: translate(-50%, -50%) scale(0);
   transition: 0.2s ease-in-out;
-  background-color: var(--light-blue);
-  color: var(--dark-blue);
-  font-size: 2rem;
-  border-radius: 10px;
   padding: 20px;
+  background-color: grey;
 }
 
 .modal.active {
   transform: translate(-50%, -50%) scale(1);
+}
+
+.overlay.active {
+  display: block;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: none;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
 }
