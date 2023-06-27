@@ -134,6 +134,29 @@ class DOMInteraction {
     this.init();
   }
 
+  checkIfShipSunk(board) {
+    board.ships.forEach((ship) => {
+      if (ship.isSunk()) {
+        ship.positions.forEach((position) => {
+          const stringPosition = position.toString();
+          const boardId =
+            board === this.player.playerBoard
+              ? "player-board"
+              : "opponent-board";
+          const cellElement = document.querySelector(
+            `#${boardId} [data-index="${stringPosition}"]`
+          );
+          if (cellElement) {
+            cellElement.classList.remove("attempted");
+            cellElement.classList.remove("hit");
+            cellElement.classList.remove("ship");
+            cellElement.classList.add("sunk");
+          }
+        });
+      }
+    });
+  }
+
   // render computer board
   renderOpponentBoard(board) {
     const boardElement = document.getElementById("opponent-board");
@@ -157,6 +180,7 @@ class DOMInteraction {
         if (cell.occupied) cellElement.classList.add("hit");
       }
 
+      this.checkIfShipSunk(board);
       // add event listener to each cell
       cellElement.addEventListener("click", this.handleCellClick.bind(this));
       boardElement.appendChild(cellElement);
@@ -183,6 +207,7 @@ class DOMInteraction {
         if (cell.occupied) cellElement.classList.add("hit");
       }
 
+      this.checkIfShipSunk(board);
       boardElement.appendChild(cellElement);
     });
   }
@@ -205,7 +230,9 @@ class DOMInteraction {
 
       // Check if game is over after player's turn
       if (this.game.isGameOver) {
+        // if so, display winner
         this.displayWinner();
+        // if not, execute computer turn
       } else {
         // Wrap the computer's turn inside a Promise
         new Promise((resolve) => {
