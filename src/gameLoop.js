@@ -31,11 +31,6 @@ class GameLoop {
     // meaning it hasnt been attacked before
     const isValidMove = this.player.playTurn(index);
 
-    console.log("Opponent ships that have been hit:");
-    this.opponent.opponentBoard.ships.forEach((ship) => {
-      console.log(ship.hits);
-    });
-
     if (isValidMove) {
       this.checkGameOver();
       this.turn = this.opponent;
@@ -47,12 +42,6 @@ class GameLoop {
 
   executeComputerTurn() {
     const index = this.opponent.playTurn();
-
-    console.log("Player ships that have been hit:");
-    this.player.playerBoard.ships.forEach((ship) => {
-      console.log(ship.hits);
-    });
-
     this.checkGameOver();
     this.turn = this.player;
     return index;
