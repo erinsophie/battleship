@@ -84,6 +84,7 @@ class Gameboard {
       const newShip = new Ship(positions);
       // push new ship object into ships array
       this.ships.push(newShip);
+      return true;
     }
   }
 

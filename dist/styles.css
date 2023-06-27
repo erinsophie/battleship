@@ -58,6 +58,7 @@ h6 {
 main {
   display: flex;
   flex-direction: column;
+  font-size: 1.3rem;
   padding: 2%;
   height: 100%;
   background-color: var(--dark-blue);
@@ -75,7 +76,6 @@ main {
   justify-content: center;
   align-items: center;
   height: 40px;
-  font-size: 1.3rem;
 }
 
 #boards-container {
@@ -93,7 +93,6 @@ main {
 
 .board-container p {
   padding: 10px;
-  font-size: 1.3rem;
 }
 
 .board {
@@ -134,11 +133,13 @@ main {
   background-color: aqua;
 }
 
-.valid:hover {
+.valid:hover,
+.valid-placement {
   background-color: green;
 }
 
-.invalid:hover {
+.invalid:hover,
+.invalid-placement {
   background-color: red;
 }
 
@@ -175,8 +176,13 @@ button {
 .axis-btn {
   padding: 10px;
   border-radius: 10px;
+  font-size: 1rem;
   border: 1px solid var(--white);
   background-color: var(--dark-blue);
+}
+
+.start-game-btn {
+  font-size: 1.2rem;
 }
 
 #overlay {
@@ -195,8 +201,18 @@ button {
 
 #place-ships {
   width: 700px;
+  height: 600px;
   justify-content: space-between;
   background-color: var(--dark-blue);
+}
+
+.ship-msg {
+  font-size: 1.5rem;
+}
+
+.temp-board {
+  width: 380px;
+  height: 380px;
 }
 
 .ship-placement:hover {

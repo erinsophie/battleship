@@ -6,11 +6,6 @@ class Player {
     this.shipSizes = [2, 3, 3, 4, 5];
   }
 
-  // let player place 5 ships
-  placePlayerShip(start, length, axis) {
-    this.playerBoard.placeShip(start, length, axis);
-  }
-
   // player takes their shot at opponent's board
   playTurn(index) {
     // if the cell the player is attempting to attack has already been attacked

@@ -1,5 +1,4 @@
-import Gameboard from "./gameboard.js";
-import Ship from "./ship.js";
+import initGame from "./init.js";
 
 class DOMInteraction {
   constructor(game, player, opponent) {
@@ -9,6 +8,7 @@ class DOMInteraction {
     this.shipsPlaced = 0;
     this.positions = [];
     this.axis = "x";
+    this.placeShipsModal();
   }
 
   placeShipsModal() {
@@ -24,82 +24,114 @@ class DOMInteraction {
     axisBtn.classList.add("axis-btn");
     axisBtn.textContent = "X Axis";
     axisBtn.addEventListener("click", () => {
-      this.axis === "x" ? (this.axis = "y") : (this.axis = "x");
+      if (this.axis === "x") {
+        this.axis = "y";
+        axisBtn.textContent = "Y Axis";
+      } else {
+        this.axis = "x";
+        axisBtn.textContent = "X Axis";
+      }
     });
+
+    // message
+    const placeShipMsg = document.createElement("p");
+    placeShipMsg.classList.add("ship-msg");
 
     // create player board element
     const playerBoardElement = document.createElement("div");
     playerBoardElement.classList.add("board");
+    playerBoardElement.classList.add("temp-board");
 
-    // create start game button
     const startGameBtn = document.createElement("button");
     startGameBtn.classList.add("start-game-btn");
     startGameBtn.textContent = "Start Game";
     startGameBtn.addEventListener("click", () => {
-      if (this.shipsPlaced === 5) this.finishPlacement();
+      if (this.shipsPlaced === 5) this.startGame();
     });
-
-    // create gameboard object
-    const newGameboard = new Gameboard();
 
     // create 100 divs
-    newGameboard.cells.forEach((cell, index) => {
+    for (let i = 0; i < 100; i++) {
       let cellElement = document.createElement("div");
-      cellElement.dataset.index = index;
+      cellElement.dataset.index = i;
       cellElement.classList.add("cell");
-      cellElement.classList.add("ship-placement");
 
-      cellElement.addEventListener("click", () =>
-        this.handlePlacement(index, newGameboard)
+      // show player potential placement of ship
+      cellElement.addEventListener("mouseover", () =>
+        this.showPotentialPlacement(i)
       );
-      playerBoardElement.append(cellElement);
-    });
+      cellElement.addEventListener("mouseout", () => this.mouseOut(i));
 
-    modal.appendChild(axisBtn);
-    modal.appendChild(playerBoardElement);
-    modal.appendChild(startGameBtn);
+      // when clicked, place ship here
+      cellElement.addEventListener("click", () => this.handlePlacement(i));
+      playerBoardElement.append(cellElement);
+    }
+
+    modal.append(axisBtn, placeShipMsg, playerBoardElement, startGameBtn);
+    this.updateShipMsg();
   }
 
-  handlePlacement(index, board) {
-    if (this.shipsPlaced === 5) return;
+  updateShipMsg() {
+    const msg = document.querySelector(".ship-msg");
+    if (this.shipsPlaced === 0) msg.textContent = "Place your destroyer";
+    if (this.shipsPlaced === 1) msg.textContent = "Place your submarine";
+    if (this.shipsPlaced === 2) msg.textContent = "Place your cruiser";
+    if (this.shipsPlaced === 3) msg.textContent = "Place your battleship";
+    if (this.shipsPlaced === 4) msg.textContent = "Place your carrier";
+    if (this.shipsPlaced === 5) msg.textContent = "Your fleet is ready!";
+  }
 
-    const length = this.game.player.shipSizes[this.shipsPlaced];
+  mouseOut(index) {
+    const length = this.player.shipSizes[this.shipsPlaced];
     const axis = this.axis;
+    const end = axis === "x" ? index + (length - 1) : index + (length - 1) * 10;
 
-    if (board.isValidPlacement(index, length, axis)) {
-      const end =
-        axis === "x" ? index + (length - 1) : index + (length - 1) * 10;
-      const positions = [];
-
-      for (let i = index; i <= end; i += axis === "x" ? 1 : 10) {
-        positions.push(i);
-      }
-
-      this.positions.push(positions);
-      this.shipsPlaced++;
-      console.log(this.positions);
-      console.log(this.shipsPlaced);
-    } else {
-      return;
+    for (let i = index; i <= end; i += axis === "x" ? 1 : 10) {
+      const cellElement = document.querySelector(`[data-index="${i}"]`);
+      cellElement.classList.remove("valid-placement");
     }
   }
 
-  finishPlacement() {
-    this.positions.forEach((positions, i) => {
-      const ship = new Ship(positions);
-      this.player.playerBoard.ships[i] = ship;
+  showPotentialPlacement(index) {
+    const length = this.player.shipSizes[this.shipsPlaced];
+    const axis = this.axis;
+    const end = axis === "x" ? index + (length - 1) : index + (length - 1) * 10;
 
-      positions.forEach((pos) => {
-        this.player.playerBoard.cells[pos].markAsOccupied();
-      });
-    });
+    for (let i = index; i <= end; i += axis === "x" ? 1 : 10) {
+      const cellElement = document.querySelector(`[data-index="${i}"]`);
+      if (this.player.playerBoard.isValidPlacement(index, length, axis)) {
+        cellElement.classList.add("valid-placement");
+      }
+    }
+  }
 
+  handlePlacement(index) {
+    if (this.shipsPlaced === 5) return;
+    const length = this.game.player.shipSizes[this.shipsPlaced];
+    const axis = this.axis;
+    const end = axis === "x" ? index + (length - 1) : index + (length - 1) * 10;
+
+    // if placement is valid, place ship
+    if (this.player.playerBoard.placeShip(index, length, axis)) {
+      this.shipsPlaced++;
+
+      for (let i = index; i <= end; i += axis === "x" ? 1 : 10) {
+        const cellElement = document.querySelector(`[data-index="${i}"]`);
+        cellElement.classList.add("ship");
+        cellElement.classList.remove("valid-placement");
+      }
+    }
+
+    console.log(this.player.playerBoard.ships);
+    console.log(this.shipsPlaced);
+    this.updateShipMsg();
+  }
+
+  startGame() {
     const modal = document.getElementById("place-ships");
     modal.classList.remove("active");
     const overlay = document.getElementById("overlay");
     overlay.classList.remove("active");
-
-    this.init(); //when player has placed all ships, now we start the game
+    this.init();
   }
 
   // render computer board
@@ -194,6 +226,11 @@ class DOMInteraction {
     } else if (!this.game.isGameOver) {
       this.displayMessage("You have already fired here!");
     }
+
+    console.log("Player board:");
+    console.log(this.player.playerBoard);
+    console.log("Opponent board");
+    console.log(this.opponent.opponentBoard);
   }
 
   updateMessage(cellIndex) {
@@ -234,6 +271,29 @@ class DOMInteraction {
     message.textContent = `Admiral ${winner.name} wins!`;
     const overlay = document.getElementById("overlay");
     overlay.classList.add("active");
+
+    const newGameBtn = document.getElementById("new-game-btn");
+
+    newGameBtn.addEventListener("click", () => {
+      modal.classList.remove("active");
+      overlay.classList.remove("active");
+      // create a new game loop and new dom
+      this.newGame();
+    });
+  }
+
+  newGame() {
+    // reset game boards in dom
+    this.resetBoard("player-board");
+    this.resetBoard("opponent-board");
+
+    // create new game loop and dom
+    initGame();
+  }
+
+  resetBoard(boardElementId) {
+    const boardElement = document.getElementById(boardElementId);
+    boardElement.innerHTML = "";
   }
 
   // Method to initialize the game
