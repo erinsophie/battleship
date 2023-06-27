@@ -125,8 +125,19 @@ main {
   background-color: red;
 }
 
-.sunk::after {
-  background-color: var(--dark-grey);
+.sunk {
+  background-color: rgba(255, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sunk::before {
+  content: "x";
+  font-size: 2rem;
+  display: block;
+  position: relative;
+  color: var(--white);
 }
 
 .ship {
