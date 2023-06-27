@@ -71,7 +71,7 @@ main {
   font-family: "Black Ops One", cursive;
 }
 
-#message {
+#turns-msg {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -164,7 +164,7 @@ button {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: var(--light-grey);
+  background-color: var(--dark-blue);
   border: 1px solid var(--white);
   border-radius: 10px;
   gap: 20px;
@@ -182,9 +182,7 @@ button {
   transform: translate(-50%, -50%) scale(1);
 }
 
-#new-game-btn,
-.start-game-btn,
-.axis-btn {
+.button {
   padding: 10px;
   border-radius: 10px;
   font-size: 1rem;
@@ -192,7 +190,7 @@ button {
   background-color: var(--dark-blue);
 }
 
-.start-game-btn {
+#start-game-btn {
   font-size: 1.2rem;
 }
 
@@ -210,18 +208,17 @@ button {
   display: block;
 }
 
-#place-ships {
+#place-ships-modal {
   width: 700px;
   height: 600px;
   justify-content: space-between;
-  background-color: var(--dark-blue);
 }
 
-.ship-msg {
+#ship-msg {
   font-size: 1.5rem;
 }
 
-.temp-board {
+#temp-board {
   width: 380px;
   height: 380px;
 }

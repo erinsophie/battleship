@@ -16,12 +16,12 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
-    <title>Document</title>
+    <title>Battleship</title>
   </head>
   <body>
     <main>
       <h1 id="title">Battleship</h1>
-      <div id="message"></div>
+      <div id="turns-msg"></div>
 
       <!---- boards ---->
 
@@ -38,7 +38,12 @@
 
       <!---- place ships modal ---->
 
-      <div id="place-ships" class="modal"></div>
+      <div id="place-ships-modal" class="modal">
+        <button id="axis-btn" class="button">X Axis</button>
+        <p id="ship-msg"></p>
+        <div id="temp-board" class="board"></div>
+        <button id="start-game-btn" class="button">Start Game</button>
+      </div>
 
       <!---- winner modal ---->
 
