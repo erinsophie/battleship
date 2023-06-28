@@ -16,13 +16,13 @@ class Opponent {
     while (this.opponentBoard.ships.length < 5 && attemptCounter < 1000) {
       const startIndex = this.generateRandomIndex();
       const length = this.shipSizes[this.opponentBoard.ships.length];
-      const axis = Math.random() < 0.5 ? "x" : "y";
+      const axis = Math.random() < 0.5 ? 'x' : 'y';
 
       this.opponentBoard.placeShip(startIndex, length, axis);
       attemptCounter++;
     }
     if (attemptCounter === 1000) {
-      console.log("Could not find legal placement for all ships.");
+      console.log('Could not find legal placement for all ships.');
     }
   }
 

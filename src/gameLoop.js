@@ -1,13 +1,13 @@
-import Gameboard from "./gameboard.js";
-import Player from "./player.js";
-import Opponent from "./opponent.js";
+import Gameboard from './gameboard.js';
+import Player from './player.js';
+import Opponent from './opponent.js';
 
 class GameLoop {
   constructor() {
     const playerBoard = new Gameboard();
     const opponentBoard = new Gameboard();
-    this.player = new Player("Player", playerBoard, opponentBoard);
-    this.opponent = new Opponent("Opponent", opponentBoard, playerBoard);
+    this.player = new Player('Player', playerBoard, opponentBoard);
+    this.opponent = new Opponent('Opponent', opponentBoard, playerBoard);
     this.isGameOver = false;
     this.turn = this.player;
   }
@@ -27,17 +27,15 @@ class GameLoop {
     // if game is over or if it's still opponent's, prevent attack
     if (this.isGameOver || this.turn === this.opponent) return;
 
-    // attack only happens if cell is valid,
-    // meaning it hasnt been attacked before
+    // attack only happens if cell has not been attacked before
     const isValidMove = this.player.playTurn(index);
 
     if (isValidMove) {
       this.checkGameOver();
       this.turn = this.opponent;
       return true;
-    } else {
-      return false;
     }
+    return false;
   }
 
   executeComputerTurn() {
@@ -48,10 +46,7 @@ class GameLoop {
   }
 
   returnWinner() {
-    const winner = this.player.playerBoard.allShipsSunk()
-      ? this.opponent
-      : this.player;
-    return winner;
+    return this.player.playerBoard.allShipsSunk() ? this.opponent : this.player;
   }
 }
 

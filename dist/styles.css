@@ -9,7 +9,7 @@
 * {
   margin: 0;
   padding: 0;
-  font-family: "Special Elite", cursive;
+  font-family: 'Special Elite', cursive;
 }
 
 html,
@@ -48,9 +48,11 @@ h6 {
 
 :root {
   --dark-blue: rgba(40, 54, 102);
-  --white: #ffffff;
-  --light-grey: rgba(220, 220, 220, 0.5);
-  --dark-grey: rgba(184, 184, 184, 0.5);
+  --white: rgba(255, 255, 255);
+  --red: rgba(255, 0, 0);
+  --green: rgba(2, 162, 0);
+  --dark-red: rgba(255, 0, 0, 0.8);
+  --ship-blue: rgba(77, 255, 244);
 }
 
 /* main */
@@ -66,9 +68,8 @@ main {
 }
 
 #title {
-  color: var(--white);
   text-align: center;
-  font-family: "Black Ops One", cursive;
+  font-family: 'Black Ops One', cursive;
 }
 
 #turns-msg {
@@ -109,11 +110,11 @@ main {
 }
 
 .attempted::after {
-  content: "";
+  content: '';
   display: block;
   height: 15px;
   width: 15px;
-  background-color: white;
+  background-color: var(--white);
   border-radius: 50%;
   position: relative;
   top: 50%;
@@ -122,18 +123,18 @@ main {
 }
 
 .hit::after {
-  background-color: red;
+  background-color: var(--red);
 }
 
 .sunk {
-  background-color: rgba(255, 0, 0, 0.8);
+  background-color: var(--dark-red);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .sunk::before {
-  content: "x";
+  content: 'x';
   font-size: 2rem;
   display: block;
   position: relative;
@@ -141,17 +142,17 @@ main {
 }
 
 .ship {
-  background-color: aqua;
+  background-color: var(--ship-blue);
 }
 
 .valid:hover,
 .valid-placement {
-  background-color: green;
+  background-color: var(--green);
 }
 
 .invalid:hover,
 .invalid-placement {
-  background-color: red;
+  background-color: var(--red);
 }
 
 /* modal */
@@ -214,6 +215,10 @@ button {
   justify-content: space-between;
 }
 
+.ship-placement:hover {
+  background-color: var(--ship-blue);
+}
+
 #ship-msg {
   font-size: 1.5rem;
 }
@@ -221,8 +226,4 @@ button {
 #temp-board {
   width: 380px;
   height: 380px;
-}
-
-.ship-placement:hover {
-  background-color: aqua;
 }

@@ -1,4 +1,4 @@
-import Ship from "./ship.js";
+import Ship from './ship.js';
 
 class Gameboard {
   constructor() {
@@ -38,11 +38,11 @@ class Gameboard {
     const startCol = start % 10;
 
     // check if move does not go off the board
-    if (axis === "x") {
+    if (axis === 'x') {
       if (startCol + length - 1 <= 9) return true;
     }
 
-    if (axis === "y") {
+    if (axis === 'y') {
       if (startRow + length - 1 <= 9) return true;
     }
 
@@ -50,15 +50,15 @@ class Gameboard {
   }
 
   isUnoccupied(start, length, axis) {
-    const end = axis === "x" ? start + (length - 1) : start + (length - 1) * 10;
+    const end = axis === 'x' ? start + (length - 1) : start + (length - 1) * 10;
 
-    if (axis === "x") {
+    if (axis === 'x') {
       for (let i = start; i <= end; i++) {
         if (this.cells[i].occupied) return false;
       }
     }
 
-    if (axis === "y") {
+    if (axis === 'y') {
       for (let i = start; i <= end; i += 10) {
         if (this.cells[i].occupied) return false;
       }
@@ -71,11 +71,11 @@ class Gameboard {
     if (this.isValidPlacement(start, length, axis)) {
       const positions = [];
       const end =
-        axis === "x" ? start + (length - 1) : start + (length - 1) * 10;
+        axis === 'x' ? start + (length - 1) : start + (length - 1) * 10;
 
       // mark those cells as occupied
       // push each position into positions array
-      for (let i = start; i <= end; i += axis === "x" ? 1 : 10) {
+      for (let i = start; i <= end; i += axis === 'x' ? 1 : 10) {
         this.cells[i].markAsOccupied();
         positions.push(i);
       }

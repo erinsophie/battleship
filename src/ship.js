@@ -6,6 +6,7 @@ class Ship {
   }
 
   hit(position) {
+    if (this.hits.includes(position)) return;
     this.hits.push(position);
   }
 
