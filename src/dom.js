@@ -13,18 +13,18 @@ class DOMInteraction {
 
   placeShipsModal() {
     // open modal
-    this.openModal('place-ships-modal');
+    this.openModal('.place-ships-modal');
     this.generateTempBoard();
     this.updateShipMsg();
 
     // add event listener to axis button
-    const axisBtn = document.getElementById('axis-btn');
+    const axisBtn = document.querySelector('.axis-btn');
     this.axis = 'x';
     axisBtn.textContent = 'X Axis';
     axisBtn.addEventListener('click', () => this.changeAxis());
 
     // add event listener to start game btn
-    const startGameBtn = document.getElementById('start-game-btn');
+    const startGameBtn = document.querySelector('.start-game-btn');
     // only start when all 5 ships have been placed
     startGameBtn.addEventListener('click', () => {
       if (this.shipsPlaced === 5) this.init();
@@ -33,7 +33,7 @@ class DOMInteraction {
 
   generateTempBoard() {
     // clear temp board element
-    const playerBoardElement = document.getElementById('temp-board');
+    const playerBoardElement = document.querySelector('.temp-board');
     playerBoardElement.innerHTML = '';
 
     // create 100 divs
@@ -58,7 +58,7 @@ class DOMInteraction {
   }
 
   changeAxis() {
-    const axisBtn = document.getElementById('axis-btn');
+    const axisBtn = document.querySelector('.axis-btn');
 
     if (this.axis === 'x') {
       this.axis = 'y';
@@ -79,7 +79,7 @@ class DOMInteraction {
       'Your fleet is ready!',
     ];
 
-    const msg = document.getElementById('ship-msg');
+    const msg = document.querySelector('.ship-msg');
     msg.textContent = shipMessages[this.shipsPlaced];
   }
 
@@ -135,12 +135,12 @@ class DOMInteraction {
       if (ship.isSunk()) {
         ship.positions.forEach((position) => {
           const stringPosition = position.toString();
-          const boardId =
+          const boardElement =
             board === this.player.playerBoard
-              ? 'player-board'
-              : 'opponent-board';
+              ? '.player-board'
+              : '.opponent-board';
           const cellElement = document.querySelector(
-            `#${boardId} [data-index="${stringPosition}"]`
+            `${boardElement} [data-index="${stringPosition}"]`
           );
           if (cellElement) {
             cellElement.classList.remove('attempted');
@@ -153,8 +153,8 @@ class DOMInteraction {
     });
   }
 
-  renderBoard(board, boardId) {
-    const boardElement = document.getElementById(boardId);
+  renderBoard(board, className) {
+    const boardElement = document.querySelector(className);
     boardElement.innerHTML = '';
 
     board.cells.forEach((cell, index) => {
@@ -194,8 +194,8 @@ class DOMInteraction {
 
   // update both boards on each turn
   updateBoards() {
-    this.renderBoard(this.player.playerBoard, 'player-board');
-    this.renderBoard(this.opponent.opponentBoard, 'opponent-board');
+    this.renderBoard(this.player.playerBoard, '.player-board');
+    this.renderBoard(this.opponent.opponentBoard, '.opponent-board');
   }
 
   handleCellClick(event) {
@@ -262,7 +262,7 @@ class DOMInteraction {
 
   // Method to display a message
   displayMessage(message) {
-    const messageElement = document.getElementById('turns-msg');
+    const messageElement = document.querySelector('.turns-msg');
     messageElement.textContent = message;
   }
 
@@ -271,48 +271,48 @@ class DOMInteraction {
     const winner = this.game.returnWinner();
 
     // activate modal and overlay
-    this.openModal('winner-modal');
-    const message = document.getElementById('winner-name');
+    this.openModal('.winner-modal');
+    const message = document.querySelector('.winner-name');
     message.textContent = `${winner.name} wins!`;
 
     // new game button
-    const newGameBtn = document.getElementById('new-game-btn');
+    const newGameBtn = document.querySelector('.new-game-btn');
     newGameBtn.addEventListener('click', () => {
-      this.closeModal('winner-modal');
+      this.closeModal('.winner-modal');
       this.newGame();
     });
   }
 
-  openModal(modalId) {
-    const modal = document.getElementById(modalId);
+  openModal(modalElement) {
+    const modal = document.querySelector(modalElement);
     modal.classList.add('active');
-    const overlay = document.getElementById('overlay');
+    const overlay = document.querySelector('.overlay');
     overlay.classList.add('active');
   }
 
-  closeModal(modalId) {
-    const modal = document.getElementById(modalId);
+  closeModal(modalElement) {
+    const modal = document.querySelector(modalElement);
     modal.classList.remove('active');
-    const overlay = document.getElementById('overlay');
+    const overlay = document.querySelector('.overlay');
     overlay.classList.remove('active');
   }
 
   newGame() {
     // reset old game boards in dom
-    this.resetBoard('player-board');
-    this.resetBoard('opponent-board');
+    this.resetBoard('.player-board');
+    this.resetBoard('.opponent-board');
     // create new game loop and dom
     initGame();
   }
 
-  resetBoard(boardElementId) {
-    const boardElement = document.getElementById(boardElementId);
-    boardElement.innerHTML = '';
+  resetBoard(boardElement) {
+    const board = document.querySelector(boardElement);
+    board.innerHTML = '';
   }
 
   // Method to initialize the game
   init() {
-    this.closeModal('place-ships-modal');
+    this.closeModal('.place-ships-modal');
     this.updateBoards();
     this.displayMessage(`${this.player.name}, take the first shot!`);
   }
