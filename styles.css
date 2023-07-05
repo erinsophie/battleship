@@ -67,19 +67,19 @@ main {
   color: var(--white);
 }
 
-#title {
+.title {
   text-align: center;
   font-family: 'Black Ops One', cursive;
 }
 
-#turns-msg {
+.turns-msg {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 40px;
 }
 
-#boards-container {
+.boards-container {
   flex: 1;
   display: flex;
   justify-content: space-around;
@@ -191,11 +191,11 @@ button {
   background-color: var(--dark-blue);
 }
 
-#start-game-btn {
+.start-game-btn {
   font-size: 1.2rem;
 }
 
-#overlay {
+.overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -205,11 +205,11 @@ button {
   background-color: rgba(0, 0, 0, 0.5);
 }
 
-#overlay.active {
+.overlay.active {
   display: block;
 }
 
-#place-ships-modal {
+.place-ships-modal {
   width: 700px;
   height: 600px;
   justify-content: space-between;
@@ -219,11 +219,11 @@ button {
   background-color: var(--ship-blue);
 }
 
-#ship-msg {
+.ship-msg {
   font-size: 1.5rem;
 }
 
-#temp-board {
+.temp-board {
   width: 380px;
   height: 380px;
 }
