@@ -1,4 +1,4 @@
-import initGame from './init.js';
+import initGame from './init';
 
 class DOMInteraction {
   constructor(game, player, opponent) {

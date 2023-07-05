@@ -1,5 +1,5 @@
-import GameLoop from './gameLoop.js';
-import DOMInteraction from './dom.js';
+import GameLoop from './gameLoop';
+import DOMInteraction from './dom';
 
 function initGame() {
   const game = new GameLoop();

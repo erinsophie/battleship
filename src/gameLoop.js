@@ -1,6 +1,6 @@
-import Gameboard from './gameboard.js';
-import Player from './player.js';
-import Opponent from './opponent.js';
+import Gameboard from './gameboard';
+import Player from './player';
+import Opponent from './opponent';
 
 class GameLoop {
   constructor() {
